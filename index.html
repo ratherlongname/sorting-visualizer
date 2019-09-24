@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+
     <title>Sorting Visualizer</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script type="text/javascript" src="d3.min.js"></script>
@@ -13,8 +14,23 @@
 
 <body>
     <script type="text/javascript" src="sorting-visualizer.js"></script>
-    <svg width=600 height=300>
-        <path stroke="black" fill="none">
-    </svg>
+
+    <div width=100% id="controls">
+        <!--controls to choose numbers, make and step through visualization.-->
+    </div>
+
+    <div width=100% id="unsorted">
+        <!--unsorted array of integer here. centre aligned-->
+    </div>
+
+    <div width=100% id="visualization">
+        <!--visualization svg comes here-->
+    </div>
+
+    <div width=100% id="sorted">
+        <!--final sorted array comes here-->
+    </div>
+
 </body>
+
 </html>
