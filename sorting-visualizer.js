@@ -1,8 +1,22 @@
 ////// TODO: random arr, specific distributions, change no. of elements, specify arr
 
-//const unsorted_arr = [14, 3, 15, 6, 2, 8, 9, 11, 1, 12, 10, 5, 4, 7, 13];
-const unsorted_arr = [3, 2, 1];
+let unsorted_arr = [3, 2, 1];
+function generate_numbers() {
+    const arr_size = 15
+    random = d3.randomUniform(1, 51)
+    unsorted_arr = []
+    
+    while (true) {
+        if (unsorted_arr.length == arr_size) break;
 
+        let random_number = Math.floor(random())
+        if (!(unsorted_arr.includes(random_number))) {
+            unsorted_arr.push(random_number)
+        }
+    }
+
+    console.log("Generated random aray: ", unsorted_arr)
+}
 //////
 
 
