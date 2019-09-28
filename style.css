@@ -5,26 +5,25 @@
     border: 1px solid red;
   }
   
+.page-container {
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .page {
-  background-color: azure;
+  max-width: 900px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-svg {
-  max-width: 900px;
-}
-
-.array {
-  max-width: 900px;
+  align-items: stretch;
+  justify-content: flex-start;
 }
 
 .controls-container {
   max-width: 500px;
-  background-color: azure;
-  border: 5px solid #0f0000;
+  background-color: whitesmoke;
+  border: 5px solid #2c2c2c;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -40,5 +39,5 @@ svg {
 }
 
 button {
-  border: 5px solid #0f0000;
+  border: 5px solid #2c2c2c;
 }
