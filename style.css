@@ -23,14 +23,15 @@
 .controls-container {
   max-width: 500px;
   padding: 10px;
+  margin: 5px;
   background-color: whitesmoke;
   border: 5px solid #2c2c2c;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   position: fixed;
-  bottom: 5px;
-  right: 5px;
+  bottom: 0px;
+  right: 0px;
 }
 
 .play-pause-container {
