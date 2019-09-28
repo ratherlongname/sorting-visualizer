@@ -15,22 +15,18 @@
 <body>
     <script type="text/javascript" src="sorting-visualizer.js"></script>
 
-    <div width=100% id="controls">
-        <!--controls to choose numbers, make and step through visualization.-->
-    
-        <button onclick="generate_numbers()">Generate random numbers</button>
+    <div class="page">
+        <svg></svg>
+        <div class="array"></div>
     </div>
 
-    <div width=100% id="unsorted">
-        <!--unsorted array of integer here. centre aligned-->
-    </div>
-
-    <div width=100% id="visualization">
-        <!--visualization svg comes here-->
-    </div>
-
-    <div width=100% id="sorted">
-        <!--final sorted array comes here-->
+    <div class="controls-container">
+        <p>Use bubblesort to sort 10 random numbers</p>
+        <div class="play-pause-container">
+            <button class="step-back">STP_BK</button>
+            <button class="play-pause">PLAY</button>
+            <button class="step-forward">STP_FW</button>
+        </div>
     </div>
 
 </body>
