@@ -1,5 +1,44 @@
-html, body {
+* {
     margin: 0;
-    height: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid red;
   }
   
+.page {
+  background-color: azure;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+svg {
+  max-width: 900px;
+}
+
+.array {
+  max-width: 900px;
+}
+
+.controls-container {
+  max-width: 500px;
+  background-color: azure;
+  border: 5px solid #0f0000;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+}
+
+.play-pause-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+button {
+  border: 5px solid #0f0000;
+}
