@@ -42,3 +42,11 @@
 button {
   border: 5px solid #2c2c2c;
 }
+
+input[type=number] {
+  width: 50px;
+}
+
+select {
+  width: 100px;
+}
