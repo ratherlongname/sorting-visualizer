@@ -1,10 +1,43 @@
 ////// TODO: random arr, specific distributions, change no. of elements, specify arr
+const random_upper_limit = 50;
+const random_lower_limit = 1;
+const array_size = 3;
 
-let unsorted_arr
+class Path {
+    constructor(unsorted_arr) {
+        this.steps = -1;
+        this.unsorted_arr = unsorted_arr;
+        this.paths = {};
+        this.unsorted_arr.forEach(l => {
+            this.paths[l] = []
+        });
+        this.log_order(this.unsorted_arr);
+    }
+
+    log_order(arr){
+        this.steps += 1;
+        arr.forEach((l, i) => {
+            this.paths[l].push(i);
+        });
+    }
+
+    print_everything(){
+        console.log("steps = ", this.steps);
+        console.log("unsorted arr = ", this.unsorted_arr);
+        console.log("paths = ", this.paths);
+    }
+}
+
+let unsorted_arr = generate_numbers();
+let path = new Path(unsorted_arr);
+bubblesort(path);
+path.print_everything();
+draw_till_index(path, 0);
+
 function generate_numbers() {
-    const arr_size = 15
-    random = d3.randomUniform(1, 51)
-    unsorted_arr = []
+    const arr_size = array_size;
+    random = d3.randomUniform(random_lower_limit, random_upper_limit+1);
+    let unsorted_arr = [];
     
     while (true) {
         if (unsorted_arr.length == arr_size) break;
@@ -16,47 +49,29 @@ function generate_numbers() {
     }
 
     console.log("Generated random aray: ", unsorted_arr)
+    return unsorted_arr;
 }
-//////
 
+function bubblesort(path) {
+    arr = path.unsorted_arr;
+    console.log("array being sorted- ", arr)
+    // start sorting in ascending order
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length-1; j++) {
+            if (arr[j] > arr[j+1]) {
+                const temp = arr[j]
+                arr[j] = arr[j+1]
+                arr[j+1] = temp
+                path.log_order(arr)
+            }
+        }
+    }
+}
 
-////// TODO: sort and make data array
+function draw_till_index(path, index) {
+    return 0;
+}
 
-// function log_path(arr, path, index) {
-//     const n = arr.length
-    
-//     for (let i = 0; i < arr.length; i++) {
-//         const l = arr[i];
-//         path[l].push({step: index, value: i})
-//     }
-// }
-
-// function bubblesort(arr) {
-//     let path = {}
-//     index = 0
-//     arr.forEach(l => {
-//         path[l] = []
-//     });
-//     log_path(arr, path, index)
-//     index += 1
-//     // start sorting in ascending order
-//     for (let i = 0; i < arr.length; i++) {
-//         for (let j = 0; j < arr.length-1; j++) {
-//             if (arr[j] > arr[j+1]) {
-//                 const temp = arr[j]
-//                 arr[j] = arr[j+1]
-//                 arr[j+1] = temp
-
-//                 log_path(arr, path, index)
-//                 index += 1
-//             }
-//         }
-//     }
-
-//     return path
-// }
-
-// const path = bubblesort(unsorted_arr)
 // const steps = path[1].length
 // const n = 3
 // for (const l in path) {
