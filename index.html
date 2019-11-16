@@ -17,24 +17,24 @@
 
     <div class="page-container">
         <div class="page">
-            <div class="unsorted_array"></div>
+            <div class="array unsorted_array"></div>
             <svg></svg>
-            <div class="sorted_array"></div>
+            <div class="array sorted_array"></div>
         </div>
     </div>
     <div class="controls-container">
         <p>Use 
-            <select>
-                <option value="mergesort">mergesort</option>
+            <select id="sort_algo">
                 <option value="bubblesort" selected>bubblesort</option>
+                <option value="mergesort">mergesort</option>
                 <option value="quicksort">quicksort</option>
             </select>
             to sort 
-            <input type="number" value="10"> random numbers
+            <input id="array_len" type="number" value=10> random numbers
         </p>
 
         <div class="play-pause-container">
-            <button class="play-pause">PLAY</button>
+            <button class="play" onclick="do_visual()">PLAY</button>
         </div>
     </div>
 

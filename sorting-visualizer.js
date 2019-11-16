@@ -1,7 +1,7 @@
-////// TODO: random arr, specific distributions, change no. of elements, specify arr
-const random_upper_limit = 50;
-const random_lower_limit = 1;
-const array_size = 3;
+const upper_lim_random = 50;
+const lower_lim_random = 1;
+const class_unsorted_array_div = "unsorted_array"
+const class_sorted_array_div = "sorted_array"
 
 class Path {
     constructor(unsorted_arr) {
@@ -28,49 +28,107 @@ class Path {
     }
 }
 
-let unsorted_arr = generate_numbers();
-let path = new Path(unsorted_arr);
-bubblesort(path);
-path.print_everything();
-draw_till_index(path, 0);
+function do_visual() {
+    params = get_params();
+    visual_data = make_visual_data(params.sort_algo, params.array_len);
+    console.log(visual_data);
+    display_visual(visual_data.unsorted_array, visual_data.sorting_path, visual_data.sorted_array);
+}
 
-function generate_numbers() {
-    const arr_size = array_size;
-    random = d3.randomUniform(random_lower_limit, random_upper_limit+1);
+function get_params() {
+    return {
+        'sort_algo': document.getElementById('sort_algo').value,
+        'array_len': document.getElementById('array_len').value
+    };
+}
+
+function make_visual_data(sort_algo, array_len) {
+    unsorted_array = generate_unsorted_array(array_len);
+    sorting_path = get_sorting_path(sort_algo, unsorted_array);
+    sorted_array = get_sorted_array(unsorted_array);
+
+    return {
+        'unsorted_array': unsorted_array,
+        'sorting_path': sorting_path,
+        'sorted_array': sorted_array
+    };
+}
+
+function generate_unsorted_array(array_len) {
+    random = d3.randomUniform(lower_lim_random, upper_lim_random+1);
     let unsorted_arr = [];
-    
-    while (true) {
-        if (unsorted_arr.length == arr_size) break;
 
-        let random_number = Math.floor(random())
+    while (unsorted_arr.length < array_len) {
+        const random_number = Math.floor(random())
         if (!(unsorted_arr.includes(random_number))) {
             unsorted_arr.push(random_number)
         }
     }
 
-    console.log("Generated random aray: ", unsorted_arr)
     return unsorted_arr;
 }
 
-function bubblesort(path) {
-    arr = path.unsorted_arr;
-    console.log("array being sorted- ", arr)
-    // start sorting in ascending order
-    for (let i = 0; i < arr.length; i++) {
-        for (let j = 0; j < arr.length-1; j++) {
-            if (arr[j] > arr[j+1]) {
-                const temp = arr[j]
-                arr[j] = arr[j+1]
-                arr[j+1] = temp
-                path.log_order(arr)
-            }
-        }
-    }
+function get_sorting_path(sort_algo, unsorted_arr) {
+    // do not know format of path...
 }
 
-function draw_till_index(path, index) {
-    return 0;
+function get_sorted_array(unsorted_array) {
+    let unsorted_array_copy = unsorted_array.slice()
+    return unsorted_array_copy.sort((a, b) => a - b);
 }
+
+function display_visual(unsorted_array, sorting_path, sorted_array) {
+    display_unsorted_array(unsorted_array);
+    display_sorting_path(sorting_path);
+    display_sorted_array(sorted_array);
+}
+
+function display_unsorted_array(unsorted_array) {
+    display_array(unsorted_array, class_unsorted_array_div)
+}
+
+function display_array(array, class_name) {
+    d3.select("." + class_name)
+        .selectAll("div")
+        .data(array)
+        .enter().append("div")
+        .text(d => d)
+        // .style("display", "inline")
+}
+
+function display_sorting_path(sorting_path) {
+    // TODO
+}
+
+function display_sorted_array(sorted_array) {
+    display_array(sorted_array, class_sorted_array_div)
+}
+
+// let unsorted_arr = generate_numbers();
+// let path = new Path(unsorted_arr);
+// bubblesort(path);
+// path.print_everything();
+// draw_till_index(path, 0);
+
+// function bubblesort(path) {
+//     arr = path.unsorted_arr;
+//     console.log("array being sorted- ", arr)
+//     // start sorting in ascending order
+//     for (let i = 0; i < arr.length; i++) {
+//         for (let j = 0; j < arr.length-1; j++) {
+//             if (arr[j] > arr[j+1]) {
+//                 const temp = arr[j]
+//                 arr[j] = arr[j+1]
+//                 arr[j+1] = temp
+//                 path.log_order(arr)
+//             }
+//         }
+//     }
+// }
+
+// function draw_till_index(path, index) {
+//     return 0;
+// }
 
 // const steps = path[1].length
 // const n = 3
