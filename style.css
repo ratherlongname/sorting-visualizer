@@ -26,12 +26,6 @@
   align-items: center;
 }
 
-/* .sorted_array {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
-
 .controls-container {
   max-width: 500px;
   padding: 10px;
