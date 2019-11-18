@@ -2,37 +2,24 @@ const upper_lim_random = 50;
 const lower_lim_random = 1;
 const class_unsorted_array_div = "unsorted_array"
 const class_sorted_array_div = "sorted_array"
-
-class Path {
-    constructor(unsorted_arr) {
-        this.steps = -1;
-        this.unsorted_arr = unsorted_arr;
-        this.paths = {};
-        this.unsorted_arr.forEach(l => {
-            this.paths[l] = []
-        });
-        this.log_order(this.unsorted_arr);
-    }
-
-    log_order(arr){
-        this.steps += 1;
-        arr.forEach((l, i) => {
-            this.paths[l].push(i);
-        });
-    }
-
-    print_everything(){
-        console.log("steps = ", this.steps);
-        console.log("unsorted arr = ", this.unsorted_arr);
-        console.log("paths = ", this.paths);
-    }
-}
+const id_sorting_visual_svg = "sorting_visual"
 
 function do_visual() {
+    clear_visual()
     params = get_params();
     visual_data = make_visual_data(params.sort_algo, params.array_len);
     console.log(visual_data);
     display_visual(visual_data.unsorted_array, visual_data.sorting_path, visual_data.sorted_array);
+}
+
+function clear_visual() {
+    d3.selectAll("." + class_unsorted_array_div + " > *").remove()
+    clear_svg()
+    d3.selectAll("." + class_sorted_array_div + " > *").remove()
+}
+
+function clear_svg() {
+    d3.selectAll("svg > *").remove()
 }
 
 function get_params() {
@@ -68,8 +55,71 @@ function generate_unsorted_array(array_len) {
     return unsorted_arr;
 }
 
-function get_sorting_path(sort_algo, unsorted_arr) {
-    // do not know format of path...
+function get_sorting_path(sort_algo, unsorted_array) {
+    let sorting_path = initialize_empty_sorting_path(unsorted_array)
+
+    switch (sort_algo) {
+        case 'bubblesort':
+            bubblesort(sorting_path, unsorted_array)
+            break;
+
+        // TODO
+
+        default:
+            break;
+    }
+
+    if (get_steps(sorting_path) == 1) {
+        log_path(sorting_path, unsorted_array)
+    }
+
+    return sorting_path
+}
+
+function initialize_empty_sorting_path(unsorted_array) {
+    let sorting_path = {}
+    unsorted_array.forEach((elem,index) => {
+        sorting_path[elem] = []
+        sorting_path[elem].push({
+            'step': 0,
+            'value': index
+        });
+    });
+    return sorting_path;
+}
+
+function bubblesort(sorting_path, unsorted_array) {
+    array_to_sort = unsorted_array.slice();
+
+    for (let i = 0; i < array_to_sort.length; i++) {
+        for (let j = 0; j < array_to_sort.length-1; j++) {
+            if (array_to_sort[j] > array_to_sort[j+1]) {
+                const temp = array_to_sort[j];
+                array_to_sort[j] = array_to_sort[j+1];
+                array_to_sort[j+1] = temp;
+                log_path(sorting_path, array_to_sort);
+            }
+        }
+    }
+}
+
+function log_path(sorting_path, array) {
+    step = get_steps(sorting_path)
+    array.forEach((elem, index) => {
+        sorting_path[elem].push({
+            'step': step,
+            'value': index
+        });
+    });
+}
+
+function get_steps(sorting_path) {
+    for (const key in sorting_path) {
+        if (sorting_path.hasOwnProperty(key)) {
+            const element = sorting_path[key];
+            return element.length
+        }
+    }
 }
 
 function get_sorted_array(unsorted_array) {
@@ -93,76 +143,59 @@ function display_array(array, class_name) {
         .data(array)
         .enter().append("div")
         .text(d => d)
-        // .style("display", "inline")
 }
 
 function display_sorting_path(sorting_path) {
-    // TODO
+    draw_sorting_path(sorting_path);
+    d3.select(window)
+      .on("resize", redraw_sorting_path(sorting_path));
+}
+
+function draw_sorting_path(sorting_path) {
+    const steps = get_steps(sorting_path);
+    const array_len = get_array_len(sorting_path);
+
+    const svg_height = steps * 40;
+    const svg_width = document.getElementById(id_sorting_visual_svg)
+                              .clientWidth;
+
+    walkX = d3.scaleLinear()
+        .domain([-1, array_len])
+        .range([0, svg_width]);
+    walkY = d3.scaleLinear()
+        .domain([0, steps-1])
+        .range([0, svg_height]);
+
+    line = d3.line()
+        .x(d => walkX(d.value))
+        .y(d => walkY(d.step));
+
+    var svg = d3.select("svg")
+        .attr("height", svg_height)
+        .attr("width", svg_width);
+
+    for (const k in sorting_path) {
+        if (sorting_path.hasOwnProperty(k)) {
+            const element = sorting_path[k];
+            svg.append("path")
+                .attr("d", line(element))
+                .attr("stroke", "black")
+                .attr("fill", "none");
+        }
+    }
+}
+
+function get_array_len(sorting_path) {
+    return Object.keys(sorting_path).length
+}
+
+function redraw_sorting_path(sorting_path) {
+    return function() {
+        clear_svg();
+        draw_sorting_path(sorting_path);
+    }
 }
 
 function display_sorted_array(sorted_array) {
     display_array(sorted_array, class_sorted_array_div)
 }
-
-// let unsorted_arr = generate_numbers();
-// let path = new Path(unsorted_arr);
-// bubblesort(path);
-// path.print_everything();
-// draw_till_index(path, 0);
-
-// function bubblesort(path) {
-//     arr = path.unsorted_arr;
-//     console.log("array being sorted- ", arr)
-//     // start sorting in ascending order
-//     for (let i = 0; i < arr.length; i++) {
-//         for (let j = 0; j < arr.length-1; j++) {
-//             if (arr[j] > arr[j+1]) {
-//                 const temp = arr[j]
-//                 arr[j] = arr[j+1]
-//                 arr[j+1] = temp
-//                 path.log_order(arr)
-//             }
-//         }
-//     }
-// }
-
-// function draw_till_index(path, index) {
-//     return 0;
-// }
-
-// const steps = path[1].length
-// const n = 3
-// for (const l in path) {
-//     console.log("no. of numbers to sort = ", n)
-//     console.log("steps needed to sort = ", steps)
-//     console.log(l)
-//     console.log(path[l])
-// }
-
-//////
-
-
-
-////// TODO: make visual
-
-// walkX = d3.scaleLinear()
-//     .domain([0, steps-1])
-//     .range([10, 590]);
-// walkY = d3.scaleLinear()
-//     .domain([0, n-1])
-//     .range([10, 290]);
-
-// line = d3.line()
-//     .x(d => walkX(d.step))
-//     .y(d => walkY(d.value));
-
-
-// var svg = d3.select("body").append("svg")
-//     .attr("height", 300)
-//     .attr("width", 600);
-
-// svg.append("path")
-//     .attr("d", line(path[3]))
-//     .attr("stroke", "black")
-//     .attr("fill", "none");
-//////
